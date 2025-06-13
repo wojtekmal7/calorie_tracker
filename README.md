@@ -1,61 +1,76 @@
 
-# Radar Motion Trajectory Reconstruction
+# Calorie Tracker App
 
 ## Overview
 
-This project performs 3D motion trajectory reconstruction of a person based on radar sensor data. The data used includes distances measured between the person and 4 radar sensors over time, stored in `.mat` and `.csv` files. The method applies a linearization of the multilateration problem and solves the system using LU decomposition.
-
-## Structure
-
-The project consists of four major tasks:
-
-### Task 1: System Setup
-- Loads the file `MNUB_24L_P1_dane17.mat`.
-- Initializes matrices `A` and `b` based on radar positions `R` and measured distances `D`.
-
-### Task 2: LU Decomposition
-- Performs LU decomposition of matrix `A`.
-- Solves for person’s position over time using forward and backward substitution.
-- Reconstructs the 3D and 2D trajectories and visualizes them with `plot3()` and `plot()`.
-
-### Task 3: Error Propagation due to Distance Noise
-- Applies multiplicative Gaussian noise to distance measurements `D`.
-- Calculates relative aggregated error for position estimation.
-- Estimates theoretical error using the condition number of matrix `A`.
-
-### Task 4: Sensitivity Analysis of Radar Sensor Placement
-- Introduces variation in the z-coordinate of each radar individually.
-- Computes impact on:
-  - Aggregated position error
-  - Determinant of `A`
-  - Condition number of `A`
-- Visualizes how sensitivity varies with respect to sensor perturbations.
-
-## How to Run
-
-Run the MATLAB script in any recent version of MATLAB:
-
-```matlab
-clear; close all; clc;
-% paste the code into the MATLAB editor or run the file directly.
-```
-
-Ensure the data file `MNUB_24L_P1_dane17.mat` is in the current working directory.
-
-## Dependencies
-
-- MATLAB R2021a or newer (recommended)
-- No external toolboxes required
-
-## Data Files
-
-- `MNUB_24L_P1_dane17.mat` – primary dataset containing matrices `R`, `D`, and `t`
-- `MNUB_24L_P2_dane17.mat`, `MNUB_24L_P3_dane17.csv` – optional for comparative analysis
+This project is a Django-based web application for tracking daily calorie intake. Users can register, log in, add meals with nutritional information, and view their consumption history throughout the day.
 
 ## Author
 
 Wojciech Malesiński
 
+## Features
+
+- **User Registration and Login**  
+  Users can create accounts and log in using their email and password.
+
+- **Meal Management**  
+  Add meals with nutritional values (calories, proteins, carbohydrates, fats, etc.). Meals can consist of multiple ingredients.
+
+- **Meal Search**  
+  Search for previously added meals or ingredients in the database.
+
+- **Consumption History**  
+  View a list of meals consumed each day and the total daily calorie intake.
+
+- **Calorie Summary**  
+  Automatically calculates the total calories consumed in a given day.
+
+## Technologies
+
+- **Backend**: Django
+- **Frontend**: HTML, CSS
+- **Database**: SQLite
+
+## Installation
+
+1. Install Python 3.x  
+2. (Optional but recommended) Create a virtual environment:
+   ```bash
+   python -m venv myenv
+   source myenv/bin/activate  # On Windows: myenv\Scripts\activate
+   ```
+
+3. Install Django:
+   ```bash
+   pip install django
+   ```
+
+4. Clone or download the project files.  
+5. Apply database migrations:
+   ```bash
+   python manage.py migrate
+   ```
+
+6. Run the development server:
+   ```bash
+   python manage.py runserver
+   ```
+
+7. Open your browser and go to `http://127.0.0.1:8000`
+
+## Usage
+
+- **Register**: Create an account with your email and password.  
+- **Login**: Access the app using your credentials.  
+- **Add Meals**: Use the form to add meal details.  
+- **View History**: Browse your meal history and calorie summary per day.
+
+## Notes
+
+- All data used in this application is fictional and for demonstration only.
+- PESEL (if used) must be 11 digits long and is validated internally.
+
 ## License
 
-This project is for educational and demonstration purposes only.
+This project is intended for educational and demonstration purposes only.
