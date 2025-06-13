@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <h1>User Profile</h1>
+
+    <!-- Formularz zmiany danych użytkownika -->
+    <form id="profile-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+
+    <!-- Kalendarz do wyboru dnia -->
+    <h2>Select a Day</h2>
+    <input type="text" id="datepicker">
+    <button id="view-meals">View Meals</button>
+
+    <!-- Dodaj przycisk do wylogowania użytkownika -->
+    <form id="logout-form" method="post" action="/logout/">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+    <script>
+        $( function() {
+            $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+        });
+
+        document.getElementById("view-meals").addEventListener("click", function() {
+            const selectedDate = document.getElementById("datepicker").value;
+            if (selectedDate) {
+                window.location.href = `/meals/${selectedDate}/`;
+            } else {
+                alert("Please select a date.");
+            }
+        });
+    </script>
+</body>
+</html>

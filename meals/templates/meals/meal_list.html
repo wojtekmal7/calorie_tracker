@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal List for {{ selected_date }}</title>
+</head>
+<body>
+    <h1>Meal List for {{ selected_date }}</h1>
+    <ul>
+        {% for meal in meals %}
+            <li>{{ meal.name }} - {{ meal.calories }} kcal, {{ meal.protein }} g protein, {{ meal.carbohydrates }} g carbohydrates, {{ meal.fat }} g fat
+                <button onclick="deleteMeal('{{ meal.id }}')">Delete</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Summary</h2>
+    <p>Total calories: {{ total_calories }} kcal</p>
+    <p>Total protein: {{ total_protein }} g</p>
+    <p>Total carbohydrates: {{ total_carbohydrates }} g</p>
+    <p>Total fat: {{ total_fat }} g</p>
+    {% if calorie_goal %}
+        <p>Calorie goal: {{ calorie_goal }} kcal</p>
+        <p>Remaining calories: {{ remaining_calories }} kcal</p>
+    {% endif %}
+    <a href="{% if selected_date %}{% url 'add_meal' selected_date %}{% else %}#{% endif %}">Add meal</a>
+    <a href="/profile">Back to Profile</a>
+
+    <script>
+        function deleteMeal(mealId) {
+            if (confirm("Are you sure you want to delete this meal?")) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/meals/delete/" + mealId + "/", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                var csrftoken = getCookie('csrftoken');
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        location.reload();
+                    } else {
+                        alert("An error occurred while deleting the meal.");
+                    }
+                };
+                xhr.send();
+            }
+        }
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
